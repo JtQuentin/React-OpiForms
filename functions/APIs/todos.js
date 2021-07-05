@@ -15,6 +15,7 @@ exports.getAllTodos = (request, response) => {
                     todoId: doc.id,
                     title: doc.data().title,
 					body: doc.data().body,
+                    username: doc.data().username,
 					createdAt: doc.data().createdAt,
 				});
 			});
