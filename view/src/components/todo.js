@@ -51,7 +51,7 @@ const styles = (theme) => ({
   form: {
     width: "98%",
     marginLeft: 13,
-    marginTop: theme.spacing(10),
+    marginTop: theme.spacing(12),
   },
   toolbar: theme.mixins.toolbar,
   root: {
