@@ -94,8 +94,10 @@ class todo extends Component {
 
     this.state = {
       todos: "",
-      title: "",
-      body: "",
+      name: "",
+      email: "",
+      date: "",
+      color: "",
       todoId: "",
       errors: [],
       open: false,
@@ -149,8 +151,10 @@ class todo extends Component {
 
   handleEditClickOpen(data) {
     this.setState({
-      title: data.todo.title,
-      body: data.todo.body,
+      name: data.todo.name,
+      email: data.todo.email,
+      date: data.todo.date,
+      color: data.todo.color,
       todoId: data.todo.todoId,
       buttonType: "Edit",
       open: true,
@@ -159,8 +163,8 @@ class todo extends Component {
 
   handleViewOpen(data) {
     this.setState({
-      title: data.todo.title,
-      body: data.todo.body,
+      name: data.todo.name,
+      color: data.todo.color,
       viewOpen: true,
     });
   }
@@ -196,9 +200,12 @@ class todo extends Component {
 
     const handleClickOpen = () => {
       this.setState({
+        todos: "",
+        name: "",
+        email: "",
+        date: "",
+        color: "",
         todoId: "",
-        title: "",
-        body: "",
         buttonType: "",
         open: true,
       });
@@ -208,8 +215,8 @@ class todo extends Component {
       authMiddleWare(this.props.history);
       event.preventDefault();
       const userTodo = {
-        title: this.state.title,
-        body: this.state.body,
+        name: this.state.name,
+        color: this.state.color,
       };
       let options = {};
       if (this.state.buttonType === "Edit") {
@@ -309,11 +316,11 @@ class todo extends Component {
                     fullWidth
                     id="todoTitle"
                     label="Todo Title"
-                    name="title"
+                    name="name"
                     autoComplete="todoTitle"
-                    helperText={errors.title}
-                    value={this.state.title}
-                    error={errors.title ? true : false}
+                    helperText={errors.name}
+                    value={this.state.name}
+                    error={errors.name ? true : false}
                     onChange={this.handleChange}
                   />
                 </Grid>
@@ -324,15 +331,15 @@ class todo extends Component {
                     fullWidth
                     id="todoDetails"
                     label="Todo Details"
-                    name="body"
+                    name="color"
                     autoComplete="todoDetails"
                     multiline
                     rows={25}
                     rowsMax={25}
-                    helperText={errors.body}
-                    error={errors.body ? true : false}
+                    helperText={errors.color}
+                    error={errors.color ? true : false}
                     onChange={this.handleChange}
-                    value={this.state.body}
+                    value={this.state.color}
                   />
                 </Grid>
               </Grid>
@@ -345,13 +352,13 @@ class todo extends Component {
                 <Card className={classes.root} variant="outlined">
                   <CardContent>
                     <Typography variant="h5" component="h2">
-                      {todo.title}
+                      {todo.name}
                     </Typography>
                     <Typography className={classes.pos} color="textSecondary">
                       {dayjs(todo.createdAt).fromNow()}
                     </Typography>
                     <Typography variant="body2" component="p">
-                      {`${todo.body.substring(0, 65)}`}
+                      {`${todo.color.substring(0, 65)}`}
                     </Typography>
                   </CardContent>
                   <CardActions>
@@ -391,18 +398,18 @@ class todo extends Component {
             classes={{ paperFullWidth: classes.dialogeStyle }}
           >
             <DialogTitle id="customized-dialog-title" onClose={handleViewClose}>
-              {this.state.title}
+              {this.state.name}
             </DialogTitle>
             <DialogContent dividers>
               <TextField
                 fullWidth
                 id="todoDetails"
-                name="body"
+                name="name"
                 multiline
                 readonly
                 rows={1}
                 rowsMax={25}
-                value={this.state.body}
+                value={this.state.name}
                 InputProps={{
                   disableUnderline: true,
                 }}
