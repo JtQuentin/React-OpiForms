@@ -1,5 +1,9 @@
 import React, { Component } from "react";
 import DataTablesComp from "./DataTables";
+import "survey-react/survey.css";
+import * as Survey from "survey-react";
+import { opi_forms } from "../components/opi_config";
+
 class table extends Component {
   constructor(props) {
     super(props);
@@ -7,29 +11,20 @@ class table extends Component {
       {
         id: 1,
         name: "Tiger Nixon",
-        position: "System Architect",
-        office: "Edinburgh",
-        ext: 5421,
-        date: "2011/04/25",
-        salary: "$320,800",
+        description: "System Architect",
+        json: opi_forms["test"],
       },
       {
         id: 2,
         name: "Garrett Winters",
-        position: "Accountant",
-        office: "Tokyo",
-        ext: 8422,
-        date: "2011/07/25",
-        salary: "$170,750",
+        description: "Accountant",
+        json: "Tokyo",
       },
       {
         id: 3,
         name: "Ashton Cox",
-        position: "Junior Technical Author",
-        office: "San Francisco",
-        ext: 1562,
-        date: "2009/01/12",
-        salary: "$86,000",
+        description: "Junior Technical Author",
+        json: "San Francisco",
       },
     ];
     this.state = {
