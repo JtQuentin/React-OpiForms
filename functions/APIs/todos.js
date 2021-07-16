@@ -3,7 +3,7 @@
 const { db } = require("../util/admin");
 
 exports.getAllTodos = (request, response) => {
-  db.collection("SurveyJS")
+  db.collection("todos")
     .where("username", "==", request.user.username)
     .orderBy("createdAt", "desc")
     .get()
@@ -12,10 +12,9 @@ exports.getAllTodos = (request, response) => {
       data.forEach((doc) => {
         todos.push({
           todoId: doc.id,
-          name: doc.data().name,
-          color: doc.data().color,
-          date: doc.data().date,
-          email: data().email,
+          title: doc.data().title,
+          body: doc.data().body,
+          username: doc.data().username,
           createdAt: doc.data().createdAt,
         });
       });
@@ -28,30 +27,21 @@ exports.getAllTodos = (request, response) => {
 };
 
 exports.postOneTodo = (request, response) => {
-  if (request.body.name.trim() === "") {
+  if (request.body.body.trim() === "") {
     return response.status(400).json({ body: "Must not be empty" });
   }
 
-  if (request.body.color.trim() === "") {
-    return response.status(400).json({ color: "Must not be empty" });
-  }
-  if (request.body.date.trim() === "") {
-    return response.status(400).json({ date: "Must not be empty" });
-  }
-
-  if (request.body.email.trim() === "") {
-    return response.status(400).json({ email: "Must not be empty" });
+  if (request.body.title.trim() === "") {
+    return response.status(400).json({ title: "Must not be empty" });
   }
 
   const newTodoItem = {
-    name: request.body.name,
-    color: request.body.color,
-    date: request.body.date,
-    email: request.body.email,
+    title: request.body.title,
     username: request.user.username,
+    body: request.body.body,
     createdAt: new Date().toISOString(),
   };
-  db.collection("SurveyJS")
+  db.collection("todos")
     .add(newTodoItem)
     .then((doc) => {
       const responseTodoItem = newTodoItem;

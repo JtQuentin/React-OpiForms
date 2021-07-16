@@ -163,12 +163,12 @@ class home extends Component {
             </center>
             <Divider />
             <List>
-              <ListItem button key="Todo" onClick={this.loadTodoPage}>
+              <ListItem button key="Forms" onClick={this.loadTodoPage}>
                 <ListItemIcon>
                   {" "}
                   <NotesIcon />{" "}
                 </ListItemIcon>
-                <ListItemText primary="Todo" />
+                <ListItemText primary="Forms" />
               </ListItem>
 
               <ListItem button key="Account" onClick={this.loadAccountPage}>

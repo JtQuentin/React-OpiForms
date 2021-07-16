@@ -93,12 +93,12 @@ class todo extends Component {
     super(props);
 
     this.state = {
-      todos: "",
+      forms: "",
+      id: "",
       name: "",
-      email: "",
-      date: "",
-      color: "",
-      todoId: "",
+      description: "",
+      json: "",
+      formId: "",
       errors: [],
       open: false,
       uiLoading: true,
@@ -122,10 +122,10 @@ class todo extends Component {
     const authToken = localStorage.getItem("AuthToken");
     axios.defaults.headers.common = { Authorization: `${authToken}` };
     axios
-      .get("/todos")
+      .get("/forms")
       .then((response) => {
         this.setState({
-          todos: response.data,
+          forms: response.data,
           uiLoading: false,
         });
       })
@@ -138,9 +138,9 @@ class todo extends Component {
     authMiddleWare(this.props.history);
     const authToken = localStorage.getItem("AuthToken");
     axios.defaults.headers.common = { Authorization: `${authToken}` };
-    let todoId = data.todo.todoId;
+    let formId = data.form.formId;
     axios
-      .delete(`todo/${todoId}`)
+      .delete(`form/${formId}`)
       .then(() => {
         window.location.reload();
       })
@@ -151,11 +151,11 @@ class todo extends Component {
 
   handleEditClickOpen(data) {
     this.setState({
-      name: data.todo.name,
-      email: data.todo.email,
-      date: data.todo.date,
-      color: data.todo.color,
-      todoId: data.todo.todoId,
+      id: data.form.id,
+      name: data.form.name,
+      description: data.form.description,
+      json: data.form.json,
+      formId: data.form.formId,
       buttonType: "Edit",
       open: true,
     });
@@ -163,8 +163,10 @@ class todo extends Component {
 
   handleViewOpen(data) {
     this.setState({
-      name: data.todo.name,
-      color: data.todo.color,
+      id: data.form.id,
+      name: data.form.name,
+      description: data.form.description,
+      json: data.form.json,
       viewOpen: true,
     });
   }
@@ -200,12 +202,12 @@ class todo extends Component {
 
     const handleClickOpen = () => {
       this.setState({
-        todos: "",
+        forms: "",
+        id: "",
         name: "",
-        email: "",
-        date: "",
-        color: "",
-        todoId: "",
+        description: "",
+        json: "",
+        formId: "",
         buttonType: "",
         open: true,
       });
@@ -347,7 +349,7 @@ class todo extends Component {
           </Dialog>
 
           <Grid container spacing={2}>
-            {this.state.todos.map((todo) => (
+            {this.state.forms.map((todo) => (
               <Grid item xs={12} sm={6}>
                 <Card className={classes.root} variant="outlined">
                   <CardContent>
