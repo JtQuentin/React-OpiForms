@@ -1,51 +1,46 @@
 import React, { Component } from "react";
-import DataTablesComp from "./DataTables";
-import "survey-react/survey.css";
-import * as Survey from "survey-react";
-import { opi_forms } from "../components/opi_config";
+import axios from "axios";
+import ReactTable from "react-table-6";
+import "react-table-6/react-table.css";
 
-class table extends Component {
+export default class App extends Component {
   constructor(props) {
     super(props);
-    const dataSet = [
-      {
-        id: 1,
-        name: "Tiger Nixon",
-        description: "System Architect",
-        json: opi_forms["test"],
-      },
-      {
-        id: 2,
-        name: "Garrett Winters",
-        description: "Accountant",
-        json: "Tokyo",
-      },
-      {
-        id: 3,
-        name: "Ashton Cox",
-        description: "Junior Technical Author",
-        json: "San Francisco",
-      },
-    ];
     this.state = {
-      data: dataSet,
+      forms: [],
+      loading: true,
     };
   }
-  deleteRow = (id) => {
-    const filteredData = this.state.data.filter((i) => i.id !== id);
-    this.setState({ data: filteredData });
-  };
-  render() {
-    return (
-      <div>
-        <DataTablesComp
-          columns={this.columns}
-          data={this.state.data}
-          deleteRow={this.deleteRow}
-          gotoEdit={this.gotoEdit}
-        />
-      </div>
+  async getUsersData() {
+    const res = await axios.get(
+      "http://localhost:5000/react-todoapp-efe9c/us-central1/api/forms"
     );
+    console.log(res.data);
+    this.setState({ loading: false, forms: res.data });
+  }
+  componentDidMount() {
+    this.getUsersData();
+  }
+  render() {
+    const columns = [
+      {
+        Header: "Id",
+        accessor: "id",
+      },
+      {
+        Header: "Name",
+        accessor: "name",
+      },
+
+      {
+        Header: "Description",
+        accessor: "description",
+      },
+      {
+        Header: "Json",
+        accessor: "json",
+      },
+    ];
+    return <ReactTable data={this.state.forms} columns={columns} />;
   }
 }
-export default table;
