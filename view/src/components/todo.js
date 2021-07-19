@@ -20,11 +20,14 @@ import MuiDialogContent from "@material-ui/core/DialogContent";
 import table from "../pages/table";
 import ReactTable from "react-table-6";
 import "react-table-6/react-table.css";
+import "survey-react/survey.css";
+import * as Survey from "survey-react";
 
 import axios from "axios";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { authMiddleWare } from "../util/auth";
+import { Link } from "react-router-dom";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -35,6 +38,7 @@ const styles = (theme) => ({
     flexGrow: 1,
     padding: theme.spacing(3),
   },
+
   toolbar: theme.mixins.toolbar,
   title: {
     marginLeft: theme.spacing(2),
@@ -133,6 +137,7 @@ class todo extends Component {
           forms: response.data,
           uiLoading: false,
         });
+        // console.log(response);
       })
       .catch((err) => {
         console.log(err);
@@ -177,16 +182,53 @@ class todo extends Component {
   }
 
   render() {
+    var json = {
+      questions: [
+        {
+          name: "name",
+          type: "text",
+          title: "Please enter your name:",
+          placeHolder: "Jon Snow",
+          isRequired: true,
+        },
+        {
+          name: "birthdate",
+          type: "text",
+          inputType: "date",
+          title: "Your birthdate:",
+          isRequired: true,
+        },
+        {
+          name: "color",
+          type: "text",
+          inputType: "color",
+          title: "Your favorite color:",
+        },
+        {
+          name: "email",
+          type: "text",
+          inputType: "email",
+          title: "Your e-mail:",
+          placeHolder: "jon.snow@nightwatch.org",
+          isRequired: true,
+          validators: [
+            {
+              type: "email",
+            },
+          ],
+        },
+      ],
+    };
+
     const columns = [
       {
         Header: "Id",
-        accessor: "id",
+        accessor: "formId",
       },
       {
         Header: "Name",
         accessor: "name",
       },
-
       {
         Header: "Description",
         accessor: "description",
@@ -195,7 +237,29 @@ class todo extends Component {
         Header: "Json",
         accessor: "json",
       },
+      {
+        Header: "button",
+        accessor: "json",
+        Cell: ({ json }) => (
+          <button onClick={handleClickOpen}>
+            <AddCircleIcon />
+          </button>
+        ),
+      },
     ];
+
+    var surveyRender = !this.state.isCompleted ? (
+      <Survey.Survey
+        json={JSON.stringify(this.state.forms[0])}
+        showCompletedPage={false}
+        onCompleted={this.onCompleteComponent}
+      />
+    ) : null;
+
+    console.log(JSON.stringify(this.state.forms[0]));
+    var onSurveyCompletion = this.state.isCompleted ? (
+      <div>thanks for completing the survey :)</div>
+    ) : null;
 
     const DialogTitle = withStyles(styles)((props) => {
       const { children, classes, onClose, ...other } = props;
@@ -226,15 +290,16 @@ class todo extends Component {
     const { open, errors, viewOpen } = this.state;
 
     const handleClickOpen = () => {
-      this.setState({
-        id: "",
-        name: "",
-        description: "",
-        json: "",
-        formId: "",
-        buttonType: "",
-        open: true,
-      });
+      // this.setState({
+      //   id: "",
+      //   name: "",
+      //   description: "",
+      //   json: "",
+      //   formId: "",
+      //   buttonType: "",
+      //   open: true,
+      // });
+      return <Link to={"/survey"}></Link>;
     };
 
     const handleSubmit = (event) => {
@@ -296,14 +361,14 @@ class todo extends Component {
           <div className={classes.toolbar} />
           {/* ---------------END AFFICHAGE ---------------*/}
           {/* Bouton +*/}
-          <IconButton
+          {/* <IconButton
             className={classes.floatingButton}
             color="primary"
             aria-label="Add Todo"
             onClick={handleClickOpen}
           >
             <AddCircleIcon style={{ fontSize: 60 }} />
-          </IconButton>
+          </IconButton> */}
           {/* End Bouton +*/}
           {/* Formulaire qui permet la création du todos - A changer en SurveyJS? */}
           <Dialog
@@ -312,7 +377,7 @@ class todo extends Component {
             onClose={handleClose}
             TransitionComponent={Transition}
           >
-            <AppBar className={classes.appBar}>
+            {/* <AppBar className={classes.appBar}>
               <Toolbar>
                 <IconButton
                   edge="start"
@@ -336,8 +401,16 @@ class todo extends Component {
                   {this.state.buttonType === "Edit" ? "Enregistrer" : "Envoyer"}
                 </Button>
               </Toolbar>
-            </AppBar>
+            </AppBar> */}
 
+            <div className="survey">
+              <div>
+                {surveyRender}
+                {onSurveyCompletion}
+              </div>
+            </div>
+          </Dialog>
+          {/*
             <form className={classes.form} noValidate>
               <Grid container spacing={5}>
                 <Grid item xs={12}>
@@ -415,7 +488,7 @@ class todo extends Component {
           </Dialog>
           {/* End form*/}
           {/* Les petites cartes de todo */}
-          <ReactTable data={this.state.forms} columns={columns} />;
+          <ReactTable data={this.state.forms} columns={columns} /> ;
           {/*
 					<Grid container spacing={2}>
 						{this.state.todos.map((todo) => (
