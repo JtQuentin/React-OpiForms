@@ -28,9 +28,6 @@ import { authMiddleWare } from "../util/auth";
 const drawerWidth = 240;
 
 const styles = (theme) => ({
-  root: {
-    display: "flex",
-  },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
   },
@@ -163,12 +160,12 @@ class home extends Component {
             </center>
             <Divider />
             <List>
-              <ListItem button key="Forms" onClick={this.loadTodoPage}>
+              <ListItem button key="Formulaires" onClick={this.loadTodoPage}>
                 <ListItemIcon>
                   {" "}
                   <NotesIcon />{" "}
                 </ListItemIcon>
-                <ListItemText primary="Forms" />
+                <ListItemText primary="Formulaires" />
               </ListItem>
 
               <ListItem button key="Account" onClick={this.loadAccountPage}>

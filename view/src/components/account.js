@@ -27,7 +27,9 @@ const styles = (theme) => ({
     padding: theme.spacing(3),
   },
   toolbar: theme.mixins.toolbar,
-  root: {},
+  root: {
+    display: "flex",
+  },
   details: {
     display: "flex",
   },

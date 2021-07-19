@@ -1,8 +1,6 @@
 import React, { Component } from "react";
-
 import withStyles from "@material-ui/core/styles/withStyles";
 import Typography from "@material-ui/core/Typography";
-
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
@@ -19,11 +17,18 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import CardContent from "@material-ui/core/CardContent";
 import MuiDialogTitle from "@material-ui/core/DialogTitle";
 import MuiDialogContent from "@material-ui/core/DialogContent";
+import table from "../pages/table";
+import ReactTable from "react-table-6";
+import "react-table-6/react-table.css";
 
 import axios from "axios";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { authMiddleWare } from "../util/auth";
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 const styles = (theme) => ({
   content: {
@@ -49,9 +54,9 @@ const styles = (theme) => ({
     right: 0,
   },
   form: {
-    width: "98%",
+    width: "100%",
     marginLeft: 13,
-    marginTop: theme.spacing(12),
+    marginTop: theme.spacing(3),
   },
   toolbar: theme.mixins.toolbar,
   root: {
@@ -172,6 +177,26 @@ class todo extends Component {
   }
 
   render() {
+    const columns = [
+      {
+        Header: "Id",
+        accessor: "id",
+      },
+      {
+        Header: "Name",
+        accessor: "name",
+      },
+
+      {
+        Header: "Description",
+        accessor: "description",
+      },
+      {
+        Header: "Json",
+        accessor: "json",
+      },
+    ];
+
     const DialogTitle = withStyles(styles)((props) => {
       const { children, classes, onClose, ...other } = props;
       return (
@@ -202,7 +227,6 @@ class todo extends Component {
 
     const handleClickOpen = () => {
       this.setState({
-        forms: "",
         id: "",
         name: "",
         description: "",
@@ -217,19 +241,21 @@ class todo extends Component {
       authMiddleWare(this.props.history);
       event.preventDefault();
       const userTodo = {
+        id: this.state.id,
         name: this.state.name,
-        color: this.state.color,
+        description: this.state.description,
+        json: this.state.json,
       };
       let options = {};
       if (this.state.buttonType === "Edit") {
         options = {
-          url: `/todo/${this.state.todoId}`,
+          url: `/form/${this.state.formId}`,
           method: "put",
           data: userTodo,
         };
       } else {
         options = {
-          url: "/todo",
+          url: "/form",
           method: "post",
           data: userTodo,
         };
@@ -268,7 +294,8 @@ class todo extends Component {
       return (
         <main className={classes.content}>
           <div className={classes.toolbar} />
-
+          {/* ---------------END AFFICHAGE ---------------*/}
+          {/* Bouton +*/}
           <IconButton
             className={classes.floatingButton}
             color="primary"
@@ -277,6 +304,8 @@ class todo extends Component {
           >
             <AddCircleIcon style={{ fontSize: 60 }} />
           </IconButton>
+          {/* End Bouton +*/}
+          {/* Formulaire qui permet la création du todos - A changer en SurveyJS? */}
           <Dialog
             fullScreen
             open={open}
@@ -295,8 +324,8 @@ class todo extends Component {
                 </IconButton>
                 <Typography variant="h6" className={classes.title}>
                   {this.state.buttonType === "Edit"
-                    ? "Edit Todo"
-                    : "Create a new Todo"}
+                    ? "Editer formulaire"
+                    : "Créer un nouveau formulaire"}
                 </Typography>
                 <Button
                   autoFocus
@@ -304,26 +333,45 @@ class todo extends Component {
                   onClick={handleSubmit}
                   className={classes.submitButton}
                 >
-                  {this.state.buttonType === "Edit" ? "Save" : "Submit"}
+                  {this.state.buttonType === "Edit" ? "Enregistrer" : "Envoyer"}
                 </Button>
               </Toolbar>
             </AppBar>
 
             <form className={classes.form} noValidate>
-              <Grid container spacing={2}>
+              <Grid container spacing={5}>
                 <Grid item xs={12}>
                   <TextField
                     variant="outlined"
                     required
                     fullWidth
-                    id="todoTitle"
-                    label="Todo Title"
+                    id="todoName"
+                    label="Name"
                     name="name"
-                    autoComplete="todoTitle"
+                    autoComplete="todoName"
                     helperText={errors.name}
                     value={this.state.name}
                     error={errors.name ? true : false}
                     onChange={this.handleChange}
+                  />
+                </Grid>
+
+                <Grid item xs={12}>
+                  <TextField
+                    variant="outlined"
+                    required
+                    fullWidth
+                    id="todoEmail"
+                    label="Email"
+                    name="email"
+                    autoComplete="todoName"
+                    multiline
+                    rows={25}
+                    rowsMax={25}
+                    helperText={errors.email}
+                    error={errors.email ? true : false}
+                    onChange={this.handleChange}
+                    value={this.state.email}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -331,10 +379,10 @@ class todo extends Component {
                     variant="outlined"
                     required
                     fullWidth
-                    id="todoDetails"
-                    label="Todo Details"
+                    id="todoColor"
+                    label="Color"
                     name="color"
-                    autoComplete="todoDetails"
+                    autoComplete="todoColor"
                     multiline
                     rows={25}
                     rowsMax={25}
@@ -344,54 +392,65 @@ class todo extends Component {
                     value={this.state.color}
                   />
                 </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    variant="outlined"
+                    required
+                    fullWidth
+                    id="todoDate"
+                    label="Date"
+                    name="date"
+                    autoComplete="todoDate"
+                    multiline
+                    rows={25}
+                    rowsMax={25}
+                    helperText={errors.date}
+                    error={errors.date ? true : false}
+                    onChange={this.handleChange}
+                    value={this.state.date}
+                  />
+                </Grid>
               </Grid>
             </form>
           </Dialog>
-
-          <Grid container spacing={2}>
-            {this.state.forms.map((todo) => (
-              <Grid item xs={12} sm={6}>
-                <Card className={classes.root} variant="outlined">
-                  <CardContent>
-                    <Typography variant="h5" component="h2">
-                      {todo.name}
-                    </Typography>
-                    <Typography className={classes.pos} color="textSecondary">
-                      {dayjs(todo.createdAt).fromNow()}
-                    </Typography>
-                    <Typography variant="body2" component="p">
-                      {`${todo.color.substring(0, 65)}`}
-                    </Typography>
-                  </CardContent>
-                  <CardActions>
-                    <Button
-                      size="small"
-                      color="primary"
-                      onClick={() => this.handleViewOpen({ todo })}
-                    >
-                      {" "}
-                      View{" "}
-                    </Button>
-                    <Button
-                      size="small"
-                      color="primary"
-                      onClick={() => this.handleEditClickOpen({ todo })}
-                    >
-                      Edit
-                    </Button>
-                    <Button
-                      size="small"
-                      color="primary"
-                      onClick={() => this.deleteTodoHandler({ todo })}
-                    >
-                      Delete
-                    </Button>
-                  </CardActions>
-                </Card>
-              </Grid>
-            ))}
-          </Grid>
-
+          {/* End form*/}
+          {/* Les petites cartes de todo */}
+          <ReactTable data={this.state.forms} columns={columns} />;
+          {/*
+					<Grid container spacing={2}>
+						{this.state.todos.map((todo) => (
+							<Grid item xs={12} sm={6}>
+								<Card className={classes.root} variant="outlined">
+									<CardContent>
+										<Typography variant="h5" component="h2">
+										<p>Formulaire de : {`${todo.name.substring(0, 65)}`} </p>
+										</Typography>
+										<Typography className={classes.pos} color="textSecondary">
+											{dayjs(todo.createdAt).fromNow()}
+										</Typography>
+										<Typography variant="body2" component="p">
+											 {`${todo.email.substring(0, 65)}`} 
+										</Typography>
+									</CardContent>
+									<CardActions>
+										<Button size="small" color="primary" onClick={() => this.handleViewOpen({ todo })}>
+											{' '}
+											View{' '}
+										</Button>
+										<Button size="small" color="primary" onClick={() => this.handleEditClickOpen({ todo })}>
+											Edit
+										</Button>
+										<Button size="small" color="primary" onClick={() => this.deleteTodoHandler({ todo })}>
+											Delete
+										</Button>
+									</CardActions>
+								</Card>
+							</Grid>
+						))}
+					</Grid>
+					/*}
+{/* End cards */}
+          {/* Affichage quand on clique sur bouton view */}
           <Dialog
             onClose={handleViewClose}
             aria-labelledby="customized-dialog-title"
@@ -400,32 +459,28 @@ class todo extends Component {
             classes={{ paperFullWidth: classes.dialogeStyle }}
           >
             <DialogTitle id="customized-dialog-title" onClose={handleViewClose}>
-              {this.state.name}
+              {this.state.title}
             </DialogTitle>
             <DialogContent dividers>
               <TextField
                 fullWidth
-                id="todoDetails"
+                id="todoName"
                 name="name"
                 multiline
                 readonly
                 rows={1}
                 rowsMax={25}
-                value={this.state.name}
+                value={this.state.body}
                 InputProps={{
                   disableUnderline: true,
                 }}
               />
             </DialogContent>
           </Dialog>
+          {/* End */}
         </main>
       );
     }
   }
 }
-
-const Transition = React.forwardRef(function Transition(props, ref) {
-  return <Slide direction="up" ref={ref} {...props} />;
-});
-
 export default withStyles(styles)(todo);

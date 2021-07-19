@@ -4,7 +4,6 @@ const { db } = require("../util/admin");
 
 exports.getAllForms = (request, response) => {
   db.collection("forms")
-    .where("username", "==", request.user.username)
     .get()
     .then((data) => {
       let todos = [];
