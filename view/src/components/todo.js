@@ -103,7 +103,7 @@ class todo extends Component {
 
     this.state = {
       forms: "",
-      id: "",
+      numero: "",
       name: "",
       description: "",
       json: "",
@@ -161,7 +161,7 @@ class todo extends Component {
 
   handleEditClickOpen(data) {
     this.setState({
-      id: data.form.id,
+      numero: data.form.numero,
       name: data.form.name,
       description: data.form.description,
       json: data.form.json,
@@ -173,7 +173,7 @@ class todo extends Component {
 
   handleViewOpen(data) {
     this.setState({
-      id: data.form.id,
+      numero: data.form.numero,
       name: data.form.name,
       description: data.form.description,
       json: data.form.json,
@@ -223,40 +223,51 @@ class todo extends Component {
     const columns = [
       {
         Header: "Id",
-        accessor: "formId",
+        Cell: ({ row, original }) => {
+          return <span>{original.numero}</span>;
+        },
       },
       {
         Header: "Name",
-        accessor: "name",
+        Cell: ({ row, original }) => {
+          return <span>{original.name}</span>;
+        },
       },
       {
         Header: "Description",
-        accessor: "description",
+        Cell: ({ row, original }) => {
+          return <span>{original.description}</span>;
+        },
       },
       {
         Header: "Json",
-        accessor: "json",
+        Cell: ({ row, original }) => {
+          return <span>{original.json}</span>;
+        },
       },
       {
         Header: "button",
-        accessor: "json",
-        Cell: ({ json }) => (
-          <button onClick={handleClickOpen}>
-            <AddCircleIcon />
-          </button>
-        ),
+        Cell: ({ json, original }) => {
+          return (
+            <Link to={`/survey/${original.formId}`}>
+              <button>
+                <AddCircleIcon />
+              </button>
+            </Link>
+          );
+        },
       },
     ];
 
-    var surveyRender = !this.state.isCompleted ? (
-      <Survey.Survey
-        json={JSON.stringify(this.state.forms[0])}
-        showCompletedPage={false}
-        onCompleted={this.onCompleteComponent}
-      />
-    ) : null;
+    var surveyRender =
+      !this.state.isCompleted && this.state.forms !== undefined ? (
+        <Survey.Survey
+          json={json.state?.forms[0] == undefined ? {} : json.state?.forms[0]} // here
+          showCompletedPage={false}
+          onCompleted={this.onCompleteComponent}
+        />
+      ) : null;
 
-    console.log(JSON.stringify(this.state.forms[0]));
     var onSurveyCompletion = this.state.isCompleted ? (
       <div>thanks for completing the survey :)</div>
     ) : null;
@@ -289,24 +300,29 @@ class todo extends Component {
     const { classes } = this.props;
     const { open, errors, viewOpen } = this.state;
 
-    const handleClickOpen = () => {
+    const handleClickOpen = (original) => {
       // this.setState({
-      //   id: "",
-      //   name: "",
-      //   description: "",
-      //   json: "",
-      //   formId: "",
+      //   numero: original.json.numero,
+      //   name: original.json.name,
+      //   description: original.json.description,
+      //   json: original.json.json,
+      //   formId: original.json.formId,
       //   buttonType: "",
       //   open: true,
       // });
-      return <Link to={"/survey"}></Link>;
+      return <Link to={"/survey/${original.formId}"}></Link>;
+      // return <Link to={"/survey"}></Link>;
+      console.log("Id : " + original.numero);
+      console.log("Name : " + original.name);
+      console.log("Descriptionn : " + original.description);
+      console.log("json : " + original.json);
     };
 
     const handleSubmit = (event) => {
       authMiddleWare(this.props.history);
       event.preventDefault();
       const userTodo = {
-        id: this.state.id,
+        numero: this.state.numero,
         name: this.state.name,
         description: this.state.description,
         json: this.state.json,

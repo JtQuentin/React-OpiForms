@@ -14,7 +14,7 @@
 import firebase from "firebase/app";
 import "firebase/firestore";
 
-let config = {
+const config = {
   apiKey: "AIzaSyADpvWUnA0N-eGWJAuN2DyWJmC_JIatBIw",
   authDomain: "react-todoapp-efe9c.firebaseapp.com",
   databaseURL:
@@ -27,4 +27,4 @@ let config = {
 
 firebase.initializeApp(config);
 
-export default firebase.firestore();
+export default firebase;
