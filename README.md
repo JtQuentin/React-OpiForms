@@ -18,3 +18,7 @@ Lancement du projet :
 
 - Dans un terminal, lancez la commande ```firebase serve``` à la racine du projet
 - Dans un autre terminal, lancez la commande ```npm start``` dans le dossier \view
+
+A dev :
+-	Continuer la page formDetail pour afficher les différents formulaires 
+-	Ajouter les boutons et la page data pour voir les données entrées dans les formulaires
