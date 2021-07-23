@@ -223,7 +223,7 @@ class account extends Component {
                     className={classes.uploadButton}
                     onClick={this.profilePictureHandler}
                   >
-                    Upload Photo
+                    Publier photo
                   </Button>
                   <input type="file" onChange={this.handleImageChange} />
 
@@ -251,7 +251,7 @@ class account extends Component {
                   <Grid item md={6} xs={12}>
                     <TextField
                       fullWidth
-                      label="First name"
+                      label="Prénom"
                       margin="dense"
                       name="firstName"
                       variant="outlined"
@@ -262,7 +262,7 @@ class account extends Component {
                   <Grid item md={6} xs={12}>
                     <TextField
                       fullWidth
-                      label="Last name"
+                      label="Nom de famille"
                       margin="dense"
                       name="lastName"
                       variant="outlined"
@@ -285,7 +285,7 @@ class account extends Component {
                   <Grid item md={6} xs={12}>
                     <TextField
                       fullWidth
-                      label="Phone Number"
+                      label="Numéro de téléphone"
                       margin="dense"
                       name="phone"
                       type="number"
@@ -298,7 +298,7 @@ class account extends Component {
                   <Grid item md={6} xs={12}>
                     <TextField
                       fullWidth
-                      label="User Name"
+                      label="Pseudo"
                       margin="dense"
                       name="userHandle"
                       disabled={true}
@@ -310,7 +310,7 @@ class account extends Component {
                   <Grid item md={6} xs={12}>
                     <TextField
                       fullWidth
-                      label="Country"
+                      label="Pays"
                       margin="dense"
                       name="country"
                       variant="outlined"
@@ -337,7 +337,7 @@ class account extends Component {
               !this.state.country
             }
           >
-            Save details
+            Enregistrer
             {this.state.buttonLoading && (
               <CircularProgress size={30} className={classes.progess} />
             )}

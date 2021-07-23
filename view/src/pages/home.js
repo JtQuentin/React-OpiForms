@@ -156,20 +156,20 @@ class home extends Component {
                 <ListItemText primary="Formulaires" />
               </ListItem>
 
-              <ListItem button key="Account" onClick={this.loadAccountPage}>
+              <ListItem button key="Compte" onClick={this.loadAccountPage}>
                 <ListItemIcon>
                   {" "}
                   <AccountBoxIcon />{" "}
                 </ListItemIcon>
-                <ListItemText primary="Account" />
+                <ListItemText primary="Compte" />
               </ListItem>
 
-              <ListItem button key="Logout" onClick={this.logoutHandler}>
+              <ListItem button key="Déconnexion" onClick={this.logoutHandler}>
                 <ListItemIcon>
                   {" "}
                   <ExitToAppIcon />{" "}
                 </ListItemIcon>
-                <ListItemText primary="Logout" />
+                <ListItemText primary="Déconnexion" />
               </ListItem>
             </List>
           </Drawer>

@@ -71,7 +71,7 @@ class form extends Component {
         },
       },
       {
-        Header: "Name",
+        Header: "Nom",
         Cell: ({ original }) => {
           return <span>{original.name}</span>;
         },
@@ -89,7 +89,7 @@ class form extends Component {
         },
       },
       {
-        Header: "button",
+        Header: "Action",
         Cell: ({ original }) => {
           return (
             <div>
