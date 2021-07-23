@@ -4,7 +4,7 @@ import React, { Component } from "react";
 import axios from "axios";
 
 import Account from "../components/account";
-import Todo from "../components/todo";
+import Form from "../components/form";
 
 import Drawer from "@material-ui/core/Drawer";
 import AppBar from "@material-ui/core/AppBar";
@@ -28,9 +28,6 @@ import { authMiddleWare } from "../util/auth";
 const drawerWidth = 240;
 
 const styles = (theme) => ({
-  root: {
-    display: "flex",
-  },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
   },
@@ -41,24 +38,12 @@ const styles = (theme) => ({
   drawerPaper: {
     width: drawerWidth,
   },
-  content: {
-    flexGrow: 1,
-    padding: theme.spacing(3),
-  },
   avatar: {
     height: 110,
     width: 100,
     flexShrink: 0,
     flexGrow: 0,
     marginTop: 20,
-  },
-  uiProgess: {
-    position: "fixed",
-    zIndex: "1000",
-    height: "31px",
-    width: "31px",
-    left: "50%",
-    top: "35%",
   },
   toolbar: theme.mixins.toolbar,
 });
@@ -72,7 +57,7 @@ class home extends Component {
     this.setState({ render: true });
   };
 
-  loadTodoPage = (event) => {
+  loadFormPage = (event) => {
     this.setState({ render: false });
   };
 
@@ -138,7 +123,7 @@ class home extends Component {
           <AppBar position="fixed" className={classes.appBar}>
             <Toolbar>
               <Typography variant="h6" noWrap>
-                TodoApp
+                OpiForms
               </Typography>
             </Toolbar>
           </AppBar>
@@ -163,7 +148,7 @@ class home extends Component {
             </center>
             <Divider />
             <List>
-              <ListItem button key="Formulaires" onClick={this.loadTodoPage}>
+              <ListItem button key="Formulaires" onClick={this.loadFormPage}>
                 <ListItemIcon>
                   {" "}
                   <NotesIcon />{" "}
@@ -189,7 +174,7 @@ class home extends Component {
             </List>
           </Drawer>
 
-          <div>{this.state.render ? <Account /> : <Todo />}</div>
+          <div>{this.state.render ? <Account /> : <Form />}</div>
         </div>
       );
     }

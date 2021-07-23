@@ -15,13 +15,6 @@ const app = require("express")();
 const auth = require("./util/auth");
 
 const {
-  getAllTodos,
-  postOneTodo,
-  deleteTodo,
-  editTodo,
-} = require("./APIs/todos");
-
-const {
   loginUser,
   signUpUser,
   uploadProfilePhoto,
@@ -30,17 +23,6 @@ const {
 } = require("./APIs/users");
 
 const { getAllForms } = require("./APIs/forms");
-
-// app.get('/todos', getAllTodos);
-// app.post('/todo', postOneTodo);
-// app.delete('/todo/:todoId', deleteTodo);
-// app.put('/todo/:todoId', editTodo);
-
-app.get("/todos", auth, getAllTodos);
-// app.get('/todo/:todoId', auth, getOneTodo);
-app.post("/todo", auth, postOneTodo);
-app.delete("/todo/:todoId", auth, deleteTodo);
-app.put("/todo/:todoId", auth, editTodo);
 
 app.post("/login", loginUser);
 app.post("/signup", signUpUser);
