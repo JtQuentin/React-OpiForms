@@ -22,3 +22,4 @@ Lancement du projet :
 A dev :
 -	Continuer la page formDetail pour afficher les différents formulaires 
 -	Ajouter les boutons et la page data pour voir les données entrées dans les formulaires
+- Barre de recherche pour chercher un formulaire particulier
