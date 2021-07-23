@@ -16,5 +16,5 @@ Installation / Mise en place :
 
 Lancement du projet :
 
-- Lancez la commande ```firebase start``` à la racine du projet
-- Lancez la commande ```npm start``` dans le dossier \view
+- Dans un terminal, lancez la commande ```firebase start``` à la racine du projet
+- Dans un autre terminal, lancez la commande ```npm start``` dans le dossier \view
